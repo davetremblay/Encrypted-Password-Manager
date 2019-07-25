@@ -57,7 +57,7 @@ def encrypt():
             ok += 1
         except:
             print("Invalid input (Wrong password or File corrupted).")
-            _main_()
+            encrypt()
 
 def get_password_collection():
     if not os.path.isfile("password_list.txt") and not os.path.isfile("password_list.txt.aes"):
@@ -134,6 +134,7 @@ def edit_password(password_dict):
             ok += 1
         except:
             print("Entry not found.")
+            encrypt()
             _main_()
     login = password_dict[identifier][1]
     old_password = password_dict[identifier][2]
@@ -178,6 +179,7 @@ def edit_nickname(password_dict):
             ok += 1
         except:
             print("Entry not found.")
+            encrypt()
             _main_()
     old_login = password_dict[identifier][1]
     password = password_dict[identifier][2]
@@ -208,6 +210,7 @@ def edit_website(password_dict):
             ok += 1
         except:
             print("Entry not found.")
+            encrypt()
             _main_()
     login = password_dict[identifier][1]
     password = password_dict[identifier][2]
@@ -238,6 +241,7 @@ def delete_line(password_dict):
             ok += 1
         except:
             print("Entry not found.")
+            encrypt()
             _main_()
     with open('password_list.txt', 'w') as f:
         f.write(str(password_dict)[1:len(str(password_dict))-1])
@@ -252,6 +256,7 @@ def search_line(password_dict):
             ok += 1
         except:
             print("Entry not found.")
+            encrypt()
             _main_()
     return password_line
 
@@ -275,7 +280,7 @@ def _main_():
         print("Entry created!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
     elif command.lower() == "e":
         if not os.path.isfile("password_list.txt.aes"):
-            print("*No entry to show.*")
+            print("*No entry to edit.*")
             _main_()
         else:
             ok = 0
@@ -308,7 +313,7 @@ def _main_():
                 print("Website name or url edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_website[identifier][0]+"\nNickname or email address: "+new_website[identifier][1]+"\nPassword: "+new_website[identifier][2])
     elif command.lower() == "d":
         if not os.path.isfile("password_list.txt.aes"):
-            print("*No entry to show.*")
+            print("*No entry to delete.*")
             _main_()
         else:
             password_dict = get_password_collection()
@@ -316,7 +321,7 @@ def _main_():
             print("Entry deleted!")
     elif command.lower() == "s":
         if not os.path.isfile("password_list.txt.aes"):
-            print("*No entry to show.*")
+            print("*No entry to search.*")
             _main_()
         else:
             password_dict = get_password_collection()
@@ -335,6 +340,9 @@ def _main_():
                 print(str(str(password_dict)[1:len(str(password_dict).replace("], ", "]\n"))-1].replace("], ", "]\n")+"]\n\n"))
     elif command.lower() == "q":
         raise sys.exit()
+    else:
+        print("Invalid input.")
+        _main_()
     encrypt()
     os.remove("password_list.txt")
     print("password_list.txt moved to Trash / Recycling bin.\nDelete it and close this window for full protection.")
