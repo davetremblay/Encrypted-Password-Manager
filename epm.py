@@ -10,6 +10,7 @@ import random
 import os
 import ast
 import pyAesCrypt
+import sys
 
 def random_password(length, strength):
     uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -44,6 +45,7 @@ def decrypt():
             ok += 1
         except:
             print("Invalid input (Wrong password or File corrupted).")
+            _main_()
     
 def encrypt():
     bufferSize = 64*1024
@@ -55,6 +57,7 @@ def encrypt():
             ok += 1
         except:
             print("Invalid input (Wrong password or File corrupted).")
+            _main_()
 
 def get_password_collection():
     if not os.path.isfile("password_list.txt") and not os.path.isfile("password_list.txt.aes"):
@@ -66,7 +69,10 @@ def get_password_collection():
         os.remove("password_list.txt.aes")
         with open("password_list.txt", "r") as f:
             password_dict = f.read()
-            password_dict = ast.literal_eval("{"+password_dict+"}")
+            try:
+                password_dict = ast.literal_eval("{"+password_dict+"}")
+            except:
+                password_dict = {}
     return password_dict
 
 def create_new_password():
@@ -123,11 +129,12 @@ def edit_password(password_dict):
     ok = 0
     while ok == 0:
         try:
-            identifier = str(input("Identifier (unique value): "))
+            identifier = str(input("Identifier of what you want to edit: "))
             website = password_dict[identifier][0]
             ok += 1
         except:
-            print("Invalid input.")
+            print("Entry not found.")
+            _main_()
     login = password_dict[identifier][1]
     old_password = password_dict[identifier][2]
     ok = 0
@@ -166,11 +173,12 @@ def edit_nickname(password_dict):
     ok = 0
     while ok == 0:
         try:
-            identifier = str(input("Identifier (unique value): "))
+            identifier = str(input("Identifier of what you want to edit: "))
             website = password_dict[identifier][0]
             ok += 1
         except:
-            print("Invalid input.")
+            print("Entry not found.")
+            _main_()
     old_login = password_dict[identifier][1]
     password = password_dict[identifier][2]
     ok = 0
@@ -195,11 +203,12 @@ def edit_website(password_dict):
     ok = 0
     while ok == 0:
         try:
-            identifier = str(input("Identifier (unique value): "))
+            identifier = str(input("Identifier of what you want to edit: "))
             old_website = password_dict[identifier][0]
             ok += 1
         except:
-            print("Invalid input.")
+            print("Entry not found.")
+            _main_()
     login = password_dict[identifier][1]
     password = password_dict[identifier][2]
     ok = 0
@@ -224,32 +233,34 @@ def delete_line(password_dict):
     ok = 0
     while ok == 0:
         try:
-            identifier = str(input("Identifier (unique value): "))
+            identifier = str(input("Identifier of what you want to delete: "))
             del password_dict[identifier]
             ok += 1
         except:
-            print("Invalid input.")
+            print("Entry not found.")
+            _main_()
     with open('password_list.txt', 'w') as f:
-        f.write(str(password_dict)[1:len(str(password_dict))-1] + ",\n")
+        f.write(str(password_dict)[1:len(str(password_dict))-1])
     f.close()
 
 def search_line(password_dict):
     ok = 0
     while ok == 0:
         try:
-            identifier = str(input("Identifier (unique value): "))
+            identifier = str(input("Identifier of what you want to search: "))
             password_line = password_dict[identifier]
             ok += 1
         except:
-            print("Invalid input.")
+            print("Entry not found.")
+            _main_()
     return password_line
 
 def _main_():
     ok = 0
     while ok == 0:
         try:
-            command = str(input("What do you want to do?\n(A)dd an entry\n(E)dit an entry\n(D)elete an entry\n(S)earch an entry\n(V)iew all entries\n\nEnter command: "))
-            if command.lower() in "aedsv":
+            command = str(input("What do you want to do?\n(A)dd an entry\n(E)dit an entry\n(D)elete an entry\n(S)earch an entry\n(V)iew all entries\n(Q)uit\n\nEnter command: "))
+            if command.lower() in "aedsvq":
                 ok += 1
             else:
                 print("Invalid input.")
@@ -263,46 +274,67 @@ def _main_():
         password_dict.update(new_password)
         print("Entry created!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
     elif command.lower() == "e":
-        ok = 0
-        while ok == 0:
-            try:
-                command_2 = str(input("What do you want to edit?\n(W)ebsite name or url\n(N)ickname or Email address\n(P)assword\n\nEdit: "))
-                if command_2.lower() in "wnp":
-                    ok += 1
-                else:
+        if not os.path.isfile("password_list.txt.aes"):
+            print("*No entry to show.*")
+            _main_()
+        else:
+            ok = 0
+            while ok == 0:
+                try:
+                    command_2 = str(input("What do you want to edit?\n(W)ebsite name or url\n(N)ickname or Email address\n(P)assword\n\nEdit: "))
+                    if command_2.lower() in "wnp":
+                        ok += 1
+                    else:
+                        print("Invalid input.")
+                except:
                     print("Invalid input.")
-            except:
-                print("Invalid input.")
-        if command_2.lower() == "p":
-            password_dict = get_password_collection()
-            edit_password_list = edit_password(password_dict)
-            new_password = edit_password_list[0]
-            identifier = edit_password_list[1]
-            print("Password edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
-        elif command_2.lower() == "n":
-            password_dict = get_password_collection()
-            edit_nickname_list = edit_nickname(password_dict)
-            new_nickname = edit_nickname_list[0]
-            identifier = edit_nickname_list[1]
-            print("Nickname or email address edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_nickname[identifier][0]+"\nNickname or email address: "+new_nickname[identifier][1]+"\nPassword: "+new_nickname[identifier][2])
-        elif command_2.lower() == "w":
-            password_dict = get_password_collection()
-            edit_website_list = edit_website(password_dict)
-            new_website = edit_website_list[0]
-            identifier = edit_website_list[1]
-            print("Website name or url edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_website[identifier][0]+"\nNickname or email address: "+new_website[identifier][1]+"\nPassword: "+new_website[identifier][2])
+            if command_2.lower() == "p":
+                password_dict = get_password_collection()
+                edit_password_list = edit_password(password_dict)
+                new_password = edit_password_list[0]
+                identifier = edit_password_list[1]
+                print("Password edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
+            elif command_2.lower() == "n":
+                password_dict = get_password_collection()
+                edit_nickname_list = edit_nickname(password_dict)
+                new_nickname = edit_nickname_list[0]
+                identifier = edit_nickname_list[1]
+                print("Nickname or email address edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_nickname[identifier][0]+"\nNickname or email address: "+new_nickname[identifier][1]+"\nPassword: "+new_nickname[identifier][2])
+            elif command_2.lower() == "w":
+                password_dict = get_password_collection()
+                edit_website_list = edit_website(password_dict)
+                new_website = edit_website_list[0]
+                identifier = edit_website_list[1]
+                print("Website name or url edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_website[identifier][0]+"\nNickname or email address: "+new_website[identifier][1]+"\nPassword: "+new_website[identifier][2])
     elif command.lower() == "d":
-        password_dict = get_password_collection()
-        delete_line(password_dict)
-        print("Entry deleted!")
+        if not os.path.isfile("password_list.txt.aes"):
+            print("*No entry to show.*")
+            _main_()
+        else:
+            password_dict = get_password_collection()
+            delete_line(password_dict)
+            print("Entry deleted!")
     elif command.lower() == "s":
-        password_dict = get_password_collection()
-        password_line = search_line(password_dict)
-        print("Website name or url: "+password_line[0]+"\nNickname or email address: "+password_line[1]+"\nPassword: "+password_line[2])
+        if not os.path.isfile("password_list.txt.aes"):
+            print("*No entry to show.*")
+            _main_()
+        else:
+            password_dict = get_password_collection()
+            password_line = search_line(password_dict)
+            print("Website name or url: "+password_line[0]+"\nNickname or email address: "+password_line[1]+"\nPassword: "+password_line[2])
     elif command.lower() == "v":
-        password_dict = get_password_collection()
-        print("\n'Identifier': ['Website', 'Nickname', 'Password']\n")
-        print(str(password_dict)[1:len(str(password_dict).replace("], ", "]\n"))-1].replace("], ", "]\n")+"]\n\n")
+        if not os.path.isfile("password_list.txt.aes"):
+            print("*No entry to show.*")
+            _main_()
+        else:
+            password_dict = get_password_collection()
+            print("\n'Identifier': ['Website', 'Nickname', 'Password']\n")
+            if len(password_dict) == 0:
+                print("*No entry to show.*")
+            else:
+                print(str(str(password_dict)[1:len(str(password_dict).replace("], ", "]\n"))-1].replace("], ", "]\n")+"]\n\n"))
+    elif command.lower() == "q":
+        raise sys.exit()
     encrypt()
     os.remove("password_list.txt")
     print("password_list.txt moved to Trash / Recycling bin.\nDelete it and close this window for full protection.")
