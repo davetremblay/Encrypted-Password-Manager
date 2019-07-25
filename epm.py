@@ -302,7 +302,7 @@ def _main_():
     elif command.lower() == "v":
         password_dict = get_password_collection()
         print("\n'Identifier': ['Website', 'Nickname', 'Password']\n")
-        print(str(password_dict)[1:len(str(password_dict).replace("], ", "]\n"))-1].replace("], ", "]\n")+"]")
+        print(str(password_dict)[1:len(str(password_dict).replace("], ", "]\n"))-1].replace("], ", "]\n")+"]\n\n")
     encrypt()
     os.remove("password_list.txt")
     print("password_list.txt moved to Trash / Recycling bin.\nDelete it and close this window for full protection.")
