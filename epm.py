@@ -53,8 +53,12 @@ def encrypt():
     while ok == 0:
         try:
             password = str(input("Encrypting file...\nEnter new main password (!!!DON'T FORGET IT!!!): "))
-            pyAesCrypt.encryptFile("password_list.txt", "password_list.txt.aes", password, bufferSize) 
-            ok += 1
+            password2 = str(input("Enter new main password again: "))
+            if password == password2:
+                pyAesCrypt.encryptFile("password_list.txt", "password_list.txt.aes", password, bufferSize) 
+                ok += 1
+            else:
+                print("Passwords don't match. Try again.")
         except:
             print("Invalid input (Wrong password or File corrupted).")
             encrypt()
@@ -75,12 +79,17 @@ def get_password_collection():
                 password_dict = {}
     return password_dict
 
-def create_new_password():
+def create_new_password(password_dict):
     ok = 0
     while ok == 0:
         try:
             identifier = str(input("Identifier (unique value): "))
-            ok += 1
+            if identifier in password_dict:
+                print("Identifier already in use. Please add a new identifier or edit a previous one.")
+                encrypt()
+                _main_()
+            else:
+                ok += 1
         except:
             print("Invalid input.")
     ok = 0
@@ -125,12 +134,17 @@ def create_new_password():
     f.close()
     return [pass_line, identifier]
 
-def manual_password():
+def manual_password(password_dict):
     ok = 0
     while ok == 0:
         try:
             identifier = str(input("Identifier (unique value): "))
-            ok += 1
+            if identifier in password_dict:
+                print("Identifier already in use. Please add a new identifier or edit a previous one.")
+                encrypt()
+                _main_()
+            else:
+                ok += 1
         except:
             print("Invalid input.")
     ok = 0
@@ -196,11 +210,13 @@ def edit_password(password_dict):
             print("Invalid input.")
     password = random_password(length, strength)
     password_dict[identifier][2] = password
+    old_account = [website, login, old_password]
     account = [website, login, password]
+    old_pass_line = {identifier : old_account}
     pass_line = {identifier : account}
     with open('password_list.txt', 'r') as f :
         filedata = f.read()
-        filedata = filedata.replace(old_password, password)
+        filedata = filedata.replace(str(old_pass_line)[1:len(str(old_pass_line))-1], str(pass_line)[1:len(str(pass_line))-1])
     with open('password_list.txt', 'w') as f:
         f.write(filedata)    
     f.close()
@@ -227,11 +243,13 @@ def edit_manual_password(password_dict):
         except:
             print("Invalid input.")
     password_dict[identifier][2] = password
+    old_account = [website, login, old_password]
     account = [website, login, password]
+    old_pass_line = {identifier : old_account}
     pass_line = {identifier : account}
     with open('password_list.txt', 'r') as f :
         filedata = f.read()
-        filedata = filedata.replace(old_password, password)
+        filedata = filedata.replace(str(old_pass_line)[1:len(str(old_pass_line))-1], str(pass_line)[1:len(str(pass_line))-1])
     with open('password_list.txt', 'w') as f:
         f.write(filedata)    
     f.close()
@@ -258,11 +276,13 @@ def edit_nickname(password_dict):
         except:
             print("Invalid input.")
     password_dict[identifier][1] = login
+    old_account = [website, old_login, password]
     account = [website, login, password]
+    old_pass_line = {identifier : old_account}
     pass_line = {identifier : account}
     with open('password_list.txt', 'r') as f :
         filedata = f.read()
-        filedata = filedata.replace(old_login, login)
+        filedata = filedata.replace(str(old_pass_line)[1:len(str(old_pass_line))-1], str(pass_line)[1:len(str(pass_line))-1])
     with open('password_list.txt', 'w') as f:
         f.write(filedata)    
     f.close()
@@ -289,11 +309,13 @@ def edit_website(password_dict):
         except:
             print("Invalid input.")
     password_dict[identifier][0] = website
+    old_account = [old_website, login, password]
     account = [website, login, password]
+    old_pass_line = {identifier : old_account}
     pass_line = {identifier : account}
     with open('password_list.txt', 'r') as f :
         filedata = f.read()
-        filedata = filedata.replace(old_website, website)
+        filedata = filedata.replace(str(old_pass_line)[1:len(str(old_pass_line))-1], str(pass_line)[1:len(str(pass_line))-1])
     with open('password_list.txt', 'w') as f:
         f.write(filedata)    
     f.close()
@@ -351,13 +373,13 @@ def _main_():
             except:
                 print("Invalid input.")
         if manual.lower() == "n":
-            new_password_list = create_new_password()
+            new_password_list = create_new_password(password_dict)
             new_password = new_password_list[0]
             identifier = new_password_list[1]
             password_dict.update(new_password)
             print("Entry created!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
         elif manual.lower() == "y":
-            new_password_list = manual_password()
+            new_password_list = manual_password(password_dict)
             new_password = new_password_list[0]
             identifier = new_password_list[1]
             password_dict.update(new_password)
