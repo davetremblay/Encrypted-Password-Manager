@@ -48,6 +48,7 @@ def decrypt():
             pyAesCrypt.decryptFile(
                 "password_list.txt.aes", "password_list.txt", password, bufferSize)
             ok += 1
+            print("File decrypted.")
         except:
             print("Invalid input (Wrong password or File corrupted).")
             _main_()
@@ -60,13 +61,17 @@ def encrypt():
         try:
             password = str(
                 input("Encrypting file...\nEnter new main password (!!!DON'T FORGET IT!!!): "))
-            password2 = str(input("Enter new main password again: "))
-            if password == password2:
-                pyAesCrypt.encryptFile(
-                    "password_list.txt", "password_list.txt.aes", password, bufferSize)
-                ok += 1
+            if "'" in password or "\"" in password:
+                print("Please don't use ' or \". Try again.")
             else:
-                print("Passwords don't match. Try again.")
+                password2 = str(input("Enter new main password again: "))
+                if password == password2:
+                    pyAesCrypt.encryptFile(
+                        "password_list.txt", "password_list.txt.aes", password, bufferSize)
+                    ok += 1
+                    print("File encrypted.")
+                else:
+                    print("Passwords don't match. Try again.")
         except:
             print("Invalid input (Wrong password or File corrupted).")
             encrypt()
@@ -492,7 +497,8 @@ def _main_():
             _main_()
         else:
             password_dict = get_password_collection()
-            print("\n'Identifier': ['Website', 'Nickname', 'Password']\n")
+            print(
+                "\n'Identifier': ['Website', 'Nickname / Email', 'Password']\n")
             if len(password_dict) == 0:
                 print("*No entry to show.*")
             else:
