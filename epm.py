@@ -125,6 +125,42 @@ def create_new_password():
     f.close()
     return [pass_line, identifier]
 
+def manual_password():
+    ok = 0
+    while ok == 0:
+        try:
+            identifier = str(input("Identifier (unique value): "))
+            ok += 1
+        except:
+            print("Invalid input.")
+    ok = 0
+    while ok == 0:
+        try:
+            website = str(input("Website name or url: "))
+            ok += 1
+        except:
+            print("Invalid input.")
+    ok = 0
+    while ok == 0:
+        try:
+            login = str(input("Nickname / Email address: "))
+            ok += 1
+        except:
+            print("Invalid input.")
+    ok = 0
+    while ok == 0:
+        try:
+            password = str(input("Enter password manually: "))
+            ok += 1
+        except:
+            print("Invalid input.")
+    account = [website, login, password]
+    pass_line = {identifier : account}
+    with open("password_list.txt", "a") as f:
+        f.write(str(pass_line)[1:len(str(pass_line))-1] + ",\n")
+    f.close()
+    return [pass_line, identifier]
+    
 def edit_password(password_dict):
     ok = 0
     while ok == 0:
@@ -159,6 +195,37 @@ def edit_password(password_dict):
         except:
             print("Invalid input.")
     password = random_password(length, strength)
+    password_dict[identifier][2] = password
+    account = [website, login, password]
+    pass_line = {identifier : account}
+    with open('password_list.txt', 'r') as f :
+        filedata = f.read()
+        filedata = filedata.replace(old_password, password)
+    with open('password_list.txt', 'w') as f:
+        f.write(filedata)    
+    f.close()
+    return [pass_line, identifier]
+
+def edit_manual_password(password_dict):
+    ok = 0
+    while ok == 0:
+        try:
+            identifier = str(input("Identifier of what you want to edit: "))
+            website = password_dict[identifier][0]
+            ok += 1
+        except:
+            print("Entry not found.")
+            encrypt()
+            _main_()
+    login = password_dict[identifier][1]
+    old_password = password_dict[identifier][2]
+    ok = 0
+    while ok == 0:
+        try:
+            password = str(input("Enter password manually: "))
+            ok += 1
+        except:
+            print("Invalid input.")
     password_dict[identifier][2] = password
     account = [website, login, password]
     pass_line = {identifier : account}
@@ -273,11 +340,28 @@ def _main_():
             print("Invalid input.")
     if command.lower() == "a":
         password_dict = get_password_collection()
-        new_password_list = create_new_password()
-        new_password = new_password_list[0]
-        identifier = new_password_list[1]
-        password_dict.update(new_password)
-        print("Entry created!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
+        ok = 0
+        while ok == 0:
+            try:
+                manual = input("Enter password manually? (y/n): ")
+                if manual.lower() == "y" or manual.lower() == "n":
+                    ok += 1
+                else:
+                    print("Invalid input.")
+            except:
+                print("Invalid input.")
+        if manual.lower() == "n":
+            new_password_list = create_new_password()
+            new_password = new_password_list[0]
+            identifier = new_password_list[1]
+            password_dict.update(new_password)
+            print("Entry created!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
+        elif manual.lower() == "y":
+            new_password_list = manual_password()
+            new_password = new_password_list[0]
+            identifier = new_password_list[1]
+            password_dict.update(new_password)
+            print("Entry created!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
     elif command.lower() == "e":
         if not os.path.isfile("password_list.txt.aes"):
             print("*No entry to edit.*")
@@ -295,10 +379,28 @@ def _main_():
                     print("Invalid input.")
             if command_2.lower() == "p":
                 password_dict = get_password_collection()
-                edit_password_list = edit_password(password_dict)
-                new_password = edit_password_list[0]
-                identifier = edit_password_list[1]
-                print("Password edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
+                ok = 0
+                while ok == 0:
+                    try:
+                        manual = input("Enter password manually? (y/n): ")
+                        if manual.lower() == "y" or manual.lower() == "n":
+                            ok += 1
+                        else:
+                            print("Invalid input.")
+                    except:
+                        print("Invalid input.")
+                if manual.lower() == "n":
+                    edit_password_list = edit_password(password_dict)
+                    new_password = edit_password_list[0]
+                    identifier = edit_password_list[1]
+                    password_dict.update(new_password)
+                    print("Password edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
+                elif manual.lower() == "y":
+                    edit_password_list = edit_manual_password(password_dict)
+                    new_password = edit_password_list[0]
+                    identifier = edit_password_list[1]
+                    password_dict.update(new_password)
+                    print("Password edited!\nIdentifier (unique value): "+identifier+"\nWebsite name or url: "+new_password[identifier][0]+"\nNickname or email address: "+new_password[identifier][1]+"\nPassword: "+new_password[identifier][2])
             elif command_2.lower() == "n":
                 password_dict = get_password_collection()
                 edit_nickname_list = edit_nickname(password_dict)
