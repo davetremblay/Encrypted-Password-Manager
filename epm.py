@@ -40,14 +40,14 @@ def random_password(length, strength):
 
 def decrypt():
     bufferSize = 64*1024
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             password = str(
                 input("Decrypting file...\nEnter main password to access encrypted passwords: "))
             pyAesCrypt.decryptFile(
                 "password_list.txt.aes", "password_list.txt", password, bufferSize)
-            ok += 1
+            ok = True
             print("File decrypted.")
         except:
             print("Invalid input (Wrong password or File corrupted).")
@@ -56,8 +56,8 @@ def decrypt():
 
 def encrypt():
     bufferSize = 64*1024
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             password = str(
                 input("Encrypting file...\nEnter new main password (!!!DON'T FORGET IT!!!): "))
@@ -68,7 +68,7 @@ def encrypt():
                 if password == password2:
                     pyAesCrypt.encryptFile(
                         "password_list.txt", "password_list.txt.aes", password, bufferSize)
-                    ok += 1
+                    ok = True
                     print("File encrypted.")
                 else:
                     print("Passwords don't match. Try again.")
@@ -95,8 +95,8 @@ def get_password_collection():
 
 
 def create_new_password(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier (unique value): "))
             if identifier in password_dict:
@@ -105,40 +105,40 @@ def create_new_password(password_dict):
                 encrypt()
                 _main_()
             else:
-                ok += 1
+                ok = True
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             website = str(input("Website name or url: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             login = str(input("Nickname / Email address: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             length = int(input("Desired password length: "))
             if length > 0:
-                ok += 1
+                ok = True
             else:
                 print("Invalid input.")
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             strength = int(input(
                 "Strength\n1: Uppercase\n2: 1 + lowercase\n3: 2 + numbers\n4: 3 + special characters\n\nDesired password strength (1-4): "))
             if strength > 0 and strength < 5:
-                ok += 1
+                ok = True
             else:
                 print("Invalid input.")
         except:
@@ -153,8 +153,8 @@ def create_new_password(password_dict):
 
 
 def manual_password(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier (unique value): "))
             if identifier in password_dict:
@@ -163,28 +163,28 @@ def manual_password(password_dict):
                 encrypt()
                 _main_()
             else:
-                ok += 1
+                ok = True
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             website = str(input("Website name or url: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             login = str(input("Nickname / Email address: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             password = str(input("Enter password manually: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
     account = [website, login, password]
@@ -196,35 +196,35 @@ def manual_password(password_dict):
 
 
 def edit_password(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier of what you want to edit: "))
             website = password_dict[identifier][0]
-            ok += 1
+            ok = True
         except:
             print("Entry not found.")
             encrypt()
             _main_()
     login = password_dict[identifier][1]
     old_password = password_dict[identifier][2]
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             length = int(input("Desired new password length: "))
             if length > 0:
-                ok += 1
+                ok = True
             else:
                 print("Invalid input.")
         except:
             print("Invalid input.")
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             strength = int(input(
                 "Strength\n1: Uppercase\n2: 1 + lowercase\n3: 2 + numbers\n4: 3 + special characters\n\nDesired new password strength (1-4): "))
             if strength > 0 and strength < 5:
-                ok += 1
+                ok = True
             else:
                 print("Invalid input.")
         except:
@@ -246,23 +246,23 @@ def edit_password(password_dict):
 
 
 def edit_manual_password(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier of what you want to edit: "))
             website = password_dict[identifier][0]
-            ok += 1
+            ok = True
         except:
             print("Entry not found.")
             encrypt()
             _main_()
     login = password_dict[identifier][1]
     old_password = password_dict[identifier][2]
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             password = str(input("Enter password manually: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
     password_dict[identifier][2] = password
@@ -281,23 +281,23 @@ def edit_manual_password(password_dict):
 
 
 def edit_nickname(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier of what you want to edit: "))
             website = password_dict[identifier][0]
-            ok += 1
+            ok = True
         except:
             print("Entry not found.")
             encrypt()
             _main_()
     old_login = password_dict[identifier][1]
     password = password_dict[identifier][2]
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             login = str(input("New account name / email address: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
     password_dict[identifier][1] = login
@@ -316,23 +316,23 @@ def edit_nickname(password_dict):
 
 
 def edit_website(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier of what you want to edit: "))
             old_website = password_dict[identifier][0]
-            ok += 1
+            ok = True
         except:
             print("Entry not found.")
             encrypt()
             _main_()
     login = password_dict[identifier][1]
     password = password_dict[identifier][2]
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             website = str(input("New website name or url: "))
-            ok += 1
+            ok = True
         except:
             print("Invalid input.")
     password_dict[identifier][0] = website
@@ -351,12 +351,12 @@ def edit_website(password_dict):
 
 
 def delete_line(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier of what you want to delete: "))
             del password_dict[identifier]
-            ok += 1
+            ok = True
         except:
             print("Entry not found.")
             encrypt()
@@ -367,12 +367,12 @@ def delete_line(password_dict):
 
 
 def search_line(password_dict):
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             identifier = str(input("Identifier of what you want to search: "))
             password_line = password_dict[identifier]
-            ok += 1
+            ok = True
         except:
             print("Entry not found.")
             encrypt()
@@ -381,25 +381,25 @@ def search_line(password_dict):
 
 
 def _main_():
-    ok = 0
-    while ok == 0:
+    ok = False
+    while not ok:
         try:
             command = str(input(
                 "What do you want to do?\n(A)dd an entry\n(E)dit an entry\n(D)elete an entry\n(S)earch an entry\n(V)iew all entries\n(Q)uit\n\nEnter command: "))
             if command.lower() in "aedsvq":
-                ok += 1
+                ok = True
             else:
                 print("Invalid input.")
         except:
             print("Invalid input.")
     if command.lower() == "a":
         password_dict = get_password_collection()
-        ok = 0
-        while ok == 0:
+        ok = False
+        while not ok:
             try:
                 manual = input("Enter password manually? (y/n): ")
                 if manual.lower() == "y" or manual.lower() == "n":
-                    ok += 1
+                    ok = True
                 else:
                     print("Invalid input.")
             except:
@@ -423,25 +423,25 @@ def _main_():
             print("*No entry to edit.*")
             _main_()
         else:
-            ok = 0
-            while ok == 0:
+            ok = False
+            while not ok:
                 try:
                     command_2 = str(input(
                         "What do you want to edit?\n(W)ebsite name or url\n(N)ickname or Email address\n(P)assword\n\nEdit: "))
                     if command_2.lower() in "wnp":
-                        ok += 1
+                        ok = True
                     else:
                         print("Invalid input.")
                 except:
                     print("Invalid input.")
             if command_2.lower() == "p":
                 password_dict = get_password_collection()
-                ok = 0
-                while ok == 0:
+                ok = False
+                while not ok:
                     try:
                         manual = input("Enter password manually? (y/n): ")
                         if manual.lower() == "y" or manual.lower() == "n":
-                            ok += 1
+                            ok = True
                         else:
                             print("Invalid input.")
                     except:
