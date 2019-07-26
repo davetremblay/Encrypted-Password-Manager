@@ -6,11 +6,12 @@ Created on Wed Jul 24 11:56:29 2019
 @author: DaveTremblay
 """
 
-import random
-import os
 import ast
-import pyAesCrypt
+import os
+import random
 import sys
+
+import pyAesCrypt
 
 
 def random_password(length, strength):
