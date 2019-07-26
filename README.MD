@@ -22,9 +22,10 @@ pip install pyAesCrypt
 
 ### Example Scenarios
 
-1: You want to add a new entry.
+1: You want to add a new entry with a randomly generated password.
 
 ```
+$ python epm.py
 What do you want to do?
 (A)dd an entry
 (E)dit an entry
@@ -34,15 +35,11 @@ What do you want to do?
 (Q)uit
 
 Enter command: a
-
-Identifier (unique value): identifier
-
+Enter password manually? (y/n): n
+Identifier (unique value): example_1
 Website name or url: website.com
-
 Nickname / Email address: nick@name.com
-
-Desired password length: 8
-
+Desired password length: 7
 Strength
 1: Uppercase
 2: 1 + lowercase
@@ -51,20 +48,53 @@ Strength
 
 Desired password strength (1-4): 4
 Entry created!
-Identifier (unique value): identifier
+Identifier (unique value): example_1
 Website name or url: website.com
 Nickname or email address: nick@name.com
-Password: m%+Pk6^h
-
+Password: Rn4R4;I
 Encrypting file...
 Enter new main password (!!!DON'T FORGET IT!!!): mainpass
+Enter new main password again: mainpass
 password_list.txt moved to Trash / Recycling bin.
 Delete it and close this window for full protection.
 ```
 
-2: You want to edit a new entry.
+1.5: You want to add a new entry with a manual password.
 
 ```
+$ python epm.py
+What do you want to do?
+(A)dd an entry
+(E)dit an entry
+(D)elete an entry
+(S)earch an entry
+(V)iew all entries
+(Q)uit
+
+Enter command: a
+Decrypting file...
+Enter main password to access encrypted passwords: mainpass
+Enter password manually? (y/n): y
+Identifier (unique value): example_2
+Website name or url: internet.com
+Nickname / Email address: nick@name.com
+Enter password manually: password1234
+Entry created!
+Identifier (unique value): example_2
+Website name or url: internet.com
+Nickname or email address: nick@name.com
+Password: password1234
+Encrypting file...
+Enter new main password (!!!DON'T FORGET IT!!!): mainpass
+Enter new main password again: mainpass
+password_list.txt moved to Trash / Recycling bin.
+Delete it and close this window for full protection.
+```
+
+2: You want to edit an entry.
+
+```
+$ python epm.py
 What do you want to do?
 (A)dd an entry
 (E)dit an entry
@@ -74,21 +104,17 @@ What do you want to do?
 (Q)uit
 
 Enter command: e
-
 What do you want to edit?
 (W)ebsite name or url
 (N)ickname or Email address
 (P)assword
 
 Edit: p
-
 Decrypting file...
 Enter main password to access encrypted passwords: mainpass
-
-Identifier of what you want to edit: identifier
-
-Desired new password length: 16
-
+Enter password manually? (y/n): n 
+Identifier of what you want to edit: example_2
+Desired new password length: 7
 Strength
 1: Uppercase
 2: 1 + lowercase
@@ -97,13 +123,13 @@ Strength
 
 Desired new password strength (1-4): 4
 Password edited!
-Identifier (unique value): identifier
-Website name or url: website.com
+Identifier (unique value): example_2
+Website name or url: internet.com
 Nickname or email address: nick@name.com
-Password: 6xm@o8U5tz>K1jL[
-
+Password: BiN@GH)
 Encrypting file...
 Enter new main password (!!!DON'T FORGET IT!!!): mainpass
+Enter new main password again: mainpass
 password_list.txt moved to Trash / Recycling bin.
 Delete it and close this window for full protection.
 ```
@@ -111,6 +137,7 @@ Delete it and close this window for full protection.
 3: You want to search for an entry.
 
 ```
+$ python epm.py
 What do you want to do?
 (A)dd an entry
 (E)dit an entry
@@ -120,23 +147,23 @@ What do you want to do?
 (Q)uit
 
 Enter command: s
-
 Decrypting file...
 Enter main password to access encrypted passwords: mainpass
-
-Identifier of what you want to search: identifier
-Website name or url: website.com
+Identifier of what you want to search: example_2
+Website name or url: internet.com
 Nickname or email address: nick@name.com
-Password: 6xm@o8U5tz>K1jL[
-
+Password: BiN@GH)
 Encrypting file...
 Enter new main password (!!!DON'T FORGET IT!!!): mainpass
+Enter new main password again: mainpass
 password_list.txt moved to Trash / Recycling bin.
 Delete it and close this window for full protection.
 ```
+
 4: You want to view all entries.
 
 ```
+$ python epm.py
 What do you want to do?
 (A)dd an entry
 (E)dit an entry
@@ -146,18 +173,18 @@ What do you want to do?
 (Q)uit
 
 Enter command: v
-
 Decrypting file...
 Enter main password to access encrypted passwords: mainpass
 
 'Identifier': ['Website', 'Nickname', 'Password']
 
-'identifier': ['website.com', 'nick@name.com', '6xm@o8U5tz>K1jL[']]
-
+'example_1': ['website.com', 'nick@name.com', 'Rn4R4;I']
+'example_2': ['internet.com', 'nick@name.com', 'BiN@GH)']
 
 
 Encrypting file...
 Enter new main password (!!!DON'T FORGET IT!!!): mainpass
+Enter new main password again: mainpass
 password_list.txt moved to Trash / Recycling bin.
 Delete it and close this window for full protection.
 ```
@@ -165,6 +192,7 @@ Delete it and close this window for full protection.
 5. You want to delete an entry.
 
 ```
+$ python epm.py
 What do you want to do?
 (A)dd an entry
 (E)dit an entry
@@ -174,15 +202,13 @@ What do you want to do?
 (Q)uit
 
 Enter command: d
-
 Decrypting file...
 Enter main password to access encrypted passwords: mainpass
-
-Identifier of what you want to delete: identifier
+Identifier of what you want to delete: example_1
 Entry deleted!
-
 Encrypting file...
 Enter new main password (!!!DON'T FORGET IT!!!): mainpass
+Enter new main password again: mainpass
 password_list.txt moved to Trash / Recycling bin.
 Delete it and close this window for full protection.
 ```
