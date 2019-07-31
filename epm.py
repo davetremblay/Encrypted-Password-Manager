@@ -69,7 +69,10 @@ def encrypt():
                     pyAesCrypt.encryptFile(
                         "password_list.txt", "password_list.txt.aes", password, bufferSize)
                     ok = True
-                    print("File encrypted.")
+                    print("File encrypted.\nClearing and deleting password_list.txt...")
+                    with open("password_list.txt", "w") as f:
+                        f.write("")
+                        f.close()
                 else:
                     print("Passwords don't match. Try again.")
         except:
@@ -511,7 +514,7 @@ def _main_():
         _main_()
     encrypt()
     os.remove("password_list.txt")
-    print("password_list.txt moved to Trash / Recycling bin.\nDelete it and close this window for full protection.")
+    print("password_list.txt cleared and deleted.")
 
 
 _main_()
