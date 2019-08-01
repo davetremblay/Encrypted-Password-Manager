@@ -2,8 +2,8 @@
 
 EPM is a code that lets you create, edit, delete, search, and view passwords and their related information (website, nickname).
 The information is encrypted in a file on your hard drive and you must use a meta-password to access them. That's the only password
-you'll need to remember. If you forget it, your file will be unusable. The unprotected text file is sent to trash automatically, but 
-for better security you need to delete it manually, or empty your trash. That's the only password you'll need to remember. If you don't 
+you'll need to remember. If you forget it, your file will be unusable. The unprotected text file is cleared and deleted automatically.
+That's the only password you'll need to remember. If you don't
 have a password manager, this is a good option. If you already do, make sure you trust the company owning it.
 
 ## Getting Started
@@ -53,10 +53,10 @@ Website name or url: website.com
 Nickname or email address: nick@name.com
 Password: Rn4R4;I
 Encrypting file...
-Enter new main password (!!!DON'T FORGET IT!!!): mainpass
-Enter new main password again: mainpass
-password_list.txt moved to Trash / Recycling bin.
-Delete it and close this window for full protection.
+Enter new main password (!!!DON'T FORGET IT!!!): ******
+Enter new main password again: ******
+Clearing and deleting password_list.txt...
+password_list.txt cleared and deleted.
 ```
 
 1.5: You want to add a new entry with a manual password.
@@ -73,7 +73,7 @@ What do you want to do?
 
 Enter command: a
 Decrypting file...
-Enter main password to access encrypted passwords: mainpass
+Enter main password to access encrypted passwords: ******
 Enter password manually? (y/n): y
 Identifier (unique value): example_2
 Website name or url: internet.com
@@ -85,10 +85,10 @@ Website name or url: internet.com
 Nickname or email address: nick@name.com
 Password: password1234
 Encrypting file...
-Enter new main password (!!!DON'T FORGET IT!!!): mainpass
-Enter new main password again: mainpass
-password_list.txt moved to Trash / Recycling bin.
-Delete it and close this window for full protection.
+Enter new main password (!!!DON'T FORGET IT!!!): ******
+Enter new main password again: ******
+Clearing and deleting password_list.txt...
+password_list.txt cleared and deleted.
 ```
 
 2: You want to edit an entry.
@@ -111,8 +111,8 @@ What do you want to edit?
 
 Edit: p
 Decrypting file...
-Enter main password to access encrypted passwords: mainpass
-Enter password manually? (y/n): n 
+Enter main password to access encrypted passwords: ******
+Enter password manually? (y/n): n
 Identifier of what you want to edit: example_2
 Desired new password length: 7
 Strength
@@ -128,10 +128,10 @@ Website name or url: internet.com
 Nickname or email address: nick@name.com
 Password: BiN@GH)
 Encrypting file...
-Enter new main password (!!!DON'T FORGET IT!!!): mainpass
-Enter new main password again: mainpass
-password_list.txt moved to Trash / Recycling bin.
-Delete it and close this window for full protection.
+Enter new main password (!!!DON'T FORGET IT!!!): ******
+Enter new main password again: ******
+Clearing and deleting password_list.txt...
+password_list.txt cleared and deleted.
 ```
 
 3: You want to search for an entry.
@@ -148,16 +148,16 @@ What do you want to do?
 
 Enter command: s
 Decrypting file...
-Enter main password to access encrypted passwords: mainpass
+Enter main password to access encrypted passwords: ******
 Identifier of what you want to search: example_2
 Website name or url: internet.com
 Nickname or email address: nick@name.com
 Password: BiN@GH)
 Encrypting file...
-Enter new main password (!!!DON'T FORGET IT!!!): mainpass
-Enter new main password again: mainpass
-password_list.txt moved to Trash / Recycling bin.
-Delete it and close this window for full protection.
+Enter new main password (!!!DON'T FORGET IT!!!): ******
+Enter new main password again: ******
+Clearing and deleting password_list.txt...
+password_list.txt cleared and deleted.
 ```
 
 4: You want to view all entries.
@@ -174,7 +174,7 @@ What do you want to do?
 
 Enter command: v
 Decrypting file...
-Enter main password to access encrypted passwords: mainpass
+Enter main password to access encrypted passwords: ******
 
 'Identifier': ['Website', 'Nickname', 'Password']
 
@@ -183,10 +183,10 @@ Enter main password to access encrypted passwords: mainpass
 
 
 Encrypting file...
-Enter new main password (!!!DON'T FORGET IT!!!): mainpass
-Enter new main password again: mainpass
-password_list.txt moved to Trash / Recycling bin.
-Delete it and close this window for full protection.
+Enter new main password (!!!DON'T FORGET IT!!!): ******
+Enter new main password again: ******
+Clearing and deleting password_list.txt...
+password_list.txt cleared and deleted.
 ```
 
 5. You want to delete an entry.
@@ -203,14 +203,14 @@ What do you want to do?
 
 Enter command: d
 Decrypting file...
-Enter main password to access encrypted passwords: mainpass
+Enter main password to access encrypted passwords: ******
 Identifier of what you want to delete: example_1
 Entry deleted!
 Encrypting file...
-Enter new main password (!!!DON'T FORGET IT!!!): mainpass
-Enter new main password again: mainpass
-password_list.txt moved to Trash / Recycling bin.
-Delete it and close this window for full protection.
+Enter new main password (!!!DON'T FORGET IT!!!): ******
+Enter new main password again: ******
+Clearing and deleting password_list.txt...
+password_list.txt cleared and deleted.
 ```
 
 ## Author
@@ -224,4 +224,3 @@ This project is licensed under the MIT License, see the [LICENSE.MD](LICENSE.MD)
 ## Acknowledgements
 
 * Thanks to all those who report bugs and issues and help improve this project.
-
